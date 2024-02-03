@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.http.ResponseEntity;
 
 
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -40,9 +41,9 @@ public class TaskController {
     }
 
     @PostMapping("/")
-    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) {
+    public ResponseEntity<TaskDto> createTask(@RequestBody TaskDto taskDto) throws IOException {
         Task task = taskConverter.toEntity(taskDto);
-        Task createdTask = taskFacade.createTask(task);
+        Task createdTask = taskFacade.createTask(task, taskDto.getEmail());
         return new ResponseEntity<>(taskConverter.toDto(createdTask), HttpStatus.CREATED);
     }
 
